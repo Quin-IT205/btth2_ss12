@@ -43,7 +43,43 @@ while True:
                     stt += 1
                     print(f'{stt}. Mã sổ: {item['account_id']:<10}  | Khách hàng: {item['customer_name']:<10} | Số tiền gửi: {item['balance']:<10} | Kì hạn: {item['term_months']:<5} | Lãi suất: {item['interest_rate']}%/năm | Trạng thái: {item['status']:<10}')
         case 2:
-            print()
+            account_id = input('Nhập mã sổ tiết kiệm: ').strip().upper()
+            is_exist = False
+            for item in saving_accounts:
+                if item["account_id"] == account_id:
+                    is_exist = True
+                    break
+            if is_exist:
+                print('Mã sổ tiết kiệm đã tồn tại!')
+                continue
+            customer_name = input('Nhập tên khách hàng: ').strip()
+            if customer_name == "":
+                print('Tên khách hàng không được để trống')
+                continue
+            balance = input('Nhập số tiền gửi: ').strip()
+            term_months = input('Nhập kỳ hạn gửi theo tháng: ').strip()
+            if (not balance.isdigit() or not term_months.isdigit() or int(balance) <= 0 or int(term_months) <= 0):
+                print('Số tiền gửi hoặc kỳ hạn không hợp lệ')
+                continue
+            interest_rate = input('Nhập lãi suất năm: ').strip()
+            if not interest_rate.replace(".", "", 1).isdigit():
+                print('Lãi suất không hợp lệ!')
+                continue
+            interest_rate = float(interest_rate)
+            if interest_rate <= 0:
+                print('Lãi suất không hợp lệ!')
+                continue
+            saving_accounts.append(
+                {
+                    "account_id": account_id,
+                    "customer_name": customer_name,
+                    "balance": int(balance),
+                    "term_months": int(term_months),
+                    "interest_rate": interest_rate,
+                    "status": "active"
+                }
+            )
+            print('Mở sổ tiết kiệm thành công!')
         case 3:
             print()
         case 4:

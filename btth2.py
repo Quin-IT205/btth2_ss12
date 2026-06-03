@@ -81,9 +81,52 @@ while True:
             )
             print('Mở sổ tiết kiệm thành công!')
         case 3:
-            print()
+            found = False
+            account_id = input("Nhập mã sổ tiết kiệm cần cập nhật: ").strip().upper()
+            for item in saving_accounts:
+                if (item["account_id"] == account_id):
+                    found = True
+                    break
+            if (not found):
+                print("Không tìm thấy mã sổ tiết kiệm!")
+            elif (item["status"] != "active"):
+                print("Không thể cập nhật sổ tiết kiệm đã tất toán!")
+            else:
+                customer_name = input("Nhập tên khách hàng mới: ").strip()
+                if (customer_name == ""):
+                    print("Tên khách hàng không được để trống")
+                else:
+                    balance = input("Nhập số tiền gửi mới: ").strip()
+                    if (not balance.isdigit() or int(balance) <= 0):
+                        print("Số tiền gửi không hợp lệ")
+                    else:
+                        term_months = input("Nhập kỳ hạn mới theo tháng: ").strip()
+                        if (not term_months.isdigit() or int(term_months) <= 0):
+                            print("Số kỳ hạn không hợp lệ")
+                        else:
+                            interest_rate = input("Nhập lãi suất năm mới: ").strip()
+                            if (not interest_rate.replace(".", "", 1).isdigit() or float(interest_rate) <= 0):
+                                print("Lãi suất không hợp lệ!")
+                            else:
+                                item["customer_name"] = customer_name
+                                item["balance"] = int(balance)
+                                item["term_months"] = int(term_months)
+                                item["interest_rate"] = float(interest_rate)
+                                print("Cập nhật thông tin sổ tiết kiệm thành công!")
         case 4:
-            print()
+            found = False
+            account_id = input("Nhập mã sổ tiết kiệm cần tất toán/xóa: ").strip().upper()
+            for item in saving_accounts:
+                if (item["account_id"] == account_id):
+                    found = True
+                    break
+            if (not found):
+                print("Không tìm thấy mã sổ tiết kiệm!")
+            elif (item["status"] == "closed"):
+                print("Sổ tiết kiệm đã tất toán")
+            else:
+                item["status"] = "closed"
+                print("Tất toán sổ tiết kiệm thành công")
         case 5:
             isValid = False;
             account_id = input("Nhập mã sổ tiết kiệm cần tính lãi: ")
